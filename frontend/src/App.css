@@ -1,0 +1,17 @@
+.main-container{
+  display: grid;
+  grid-template-rows: 1fr 3fr;
+  justify-items: center;
+  width: 100%;
+  /* background: linear-gradient(135deg, #1e1e2f, #27273f); */
+  min-height: 100%;
+}
+.App{
+ min-width: 100%;
+  min-height: 100%;
+  /* background-color:  */
+  background: linear-gradient(135deg, #1e1e2f, #27273f);
+}
+html, body, #app, #app>div {
+  height: 100%
+}
