@@ -12,7 +12,7 @@ from utils import Transcriber
 
 MAX_TITLE_SIZE = 100
 
-def download_video(url, resolution='1440p'):
+def download_video(url, resolution='720p'):
     """
     Downloads the YouTube video at the specified resolution or the best available quality up to that resolution.
     
@@ -25,10 +25,11 @@ def download_video(url, resolution='1440p'):
     - str, the path to the downloaded video file
     - str, the title of the video
     - int, the length of the video in seconds
+    - str, the resolution of the downloaded video
     """
-    yt = YouTube(url, use_oauth=False, allow_oauth_cache=False)
+    yt = YouTube(url, use_oauth=True, allow_oauth_cache=True)
     
-    # Filter streams by resolution and progressive download (video+audio)
+   # Filter streams by resolution and progressive download (video+audio)
     streams = yt.streams.filter(progressive=True, file_extension='mp4')
     
     # Get the best stream at or below the desired resolution
@@ -42,7 +43,7 @@ def download_video(url, resolution='1440p'):
     stream.download(output_path=f'{download_folder}', filename='video.mp4')
     print(f"{yt.title} has been downloaded successfully")
     
-    return download_folder, download_folder + "/video.mp4", yt.title, yt.length
+    return download_folder, download_folder + "/video.mp4", yt.title, yt.length, stream.resolution
 
 
 def download_thumbnail(video_url, download_folder):
@@ -117,7 +118,7 @@ def main():
         sys.exit(1)
     
     # Download the video
-    download_folder, video_file_path, yt_title, yt_length = download_video(sys.argv[1])
+    download_folder, video_file_path, yt_title, yt_length, video_resolutin = download_video(sys.argv[1])
 
     # Download the thumbnail
     thumbnail_file_path =download_thumbnail(sys.argv[1], download_folder)
