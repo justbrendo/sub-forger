@@ -159,7 +159,7 @@ def is_valid_url(url):
     """
     Validate if the provided URL is a valid YouTube URL.
     """
-    # no ideia if this works all the time
+    # no idea if this works all the time
     youtube_pattern = re.compile(
         r"(https?://)?(www\.)?youtube\.com/watch\?v=([a-zA-Z0-9_-]+)"
     )
