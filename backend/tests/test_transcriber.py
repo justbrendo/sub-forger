@@ -1,5 +1,5 @@
 import unittest
-from ..src.utils import Transcriber
+from src.utils import Transcriber
 
 
 valid_wav_path = "downloads"

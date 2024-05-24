@@ -1,5 +1,5 @@
 import unittest
-from ..src.main import download_video,download_thumbnail,convert_video_to_audio,burn_subtitles
+from src.main import download_video,download_thumbnail,convert_video_to_audio,burn_subtitles
 
 valid_URL = "https://www.youtube.com/watch?app=desktop&v=biESGy2iDUQ"
 unvalid_URL = "https://www.youtube.com/watch?app=desktop&v=biESGy"

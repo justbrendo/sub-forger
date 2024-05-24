@@ -23,7 +23,7 @@ class Transcriber:
         # Checks if the selected model is available
         return self.model_name in self.models
 
-    def transcribe(self):
+    def execute(self,yt=None):
         if not self.is_model_available():
             print(f"Error: {self.model_name} is not available")
             exit(1)
@@ -31,8 +31,8 @@ class Transcriber:
         # Load model into memory
         model = faster_whisper.WhisperModel(
             self.model_name,
-            device="cuda", #cuda ou cpu
-            compute_type="float16", # float16 ou int8
+            device="cpu", #cuda ou cpu
+            compute_type="int8", # float16 ou int8
             cpu_threads=16,
         )
 
