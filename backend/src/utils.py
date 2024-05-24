@@ -31,8 +31,8 @@ class Transcriber:
         # Load model into memory
         model = faster_whisper.WhisperModel(
             self.model_name,
-            device="cpu", #cuda ou cpu
-            compute_type="int8", # float16 ou int8
+            device="cuda", #cuda ou cpu
+            compute_type="float16", # float16 ou int8
             cpu_threads=16,
         )
 
