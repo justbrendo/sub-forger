@@ -20,5 +20,5 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest src/test_input.py
-        pytest src/test_utils.py
+        pytest backend/src/test_input.py
+        pytest backend/src/test_utils.py
