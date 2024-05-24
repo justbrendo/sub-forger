@@ -27,8 +27,8 @@ class DownloadVideoCommand(Command):
     def execute(self, yt):
         streams = yt.streams.filter(progressive=True, file_extension="mp4")
         stream = (
-                streams.filter(res="720p").first()
-                or streams.order_by("resolution").desc().first()
+            streams.filter(res="720p").first()
+            or streams.order_by("resolution").desc().first()
         )
         if not stream:
             raise ValueError(
@@ -74,9 +74,9 @@ class DownloadThumbnailCommand(Command):
 
 class ConvertVideoToAudioCommand(Command):
     def __init__(
-            self,
-            video_file_path,
-            download_folder,
+        self,
+        video_file_path,
+        download_folder,
     ):
         self.video_file_path = video_file_path
         self.download_folder = download_folder
@@ -149,7 +149,29 @@ def get_format_path(download_folder, media, file_format):
         raise ValueError("Media cannot be empty")
     if not file_format:
         raise ValueError("File format cannot be empty")
-    return download_folder + "/" + media + "." + file_format
+    download_folder = os.path.abspath(download_folder)
+    media = media.strip()
+    format = file_format.strip()
+    return os.path.join(download_folder, f"{media}.{format}")
+
+
+def is_valid_url(url):
+    """
+    Validate if the provided URL is a valid YouTube URL.
+    """
+    # no ideia if this works all the time
+    youtube_pattern = re.compile(
+        r"(https?://)?(www\.)?youtube\.com/watch\?v=([a-zA-Z0-9_-]+)"
+    )
+    return bool(youtube_pattern.match(url))
+
+
+def is_valid_language_code(language_code):
+    """
+    Validate if the provided language code is valid.
+    """
+    valid_language_codes = ["EN", "PT", "ES", "FR", "BR"]  # TODO: add others
+    return language_code.upper() in valid_language_codes
 
 
 def parse_arguments(args):
@@ -161,20 +183,27 @@ def parse_arguments(args):
     Returns:
         tuple: A tuple containing the valid arguments (url, language_code, model_name).
     """
-    if len(args) != 4 :
-        raise ValueError("Error: You need to provide a valid URL\nUsage: python main.py <URL> <LANGUAGE_CODE> <MODEL_NAME>")
-    url = args[1]
-    language_code = args[2]
+    if len(args) != 4:
+        raise ValueError(
+            "Error: You need to provide a valid URL\nUsage: python main.py <URL> <LANGUAGE_CODE> <MODEL_NAME>"
+        )
+    # TODO: fix this to really use the  validator (its bad atm)
+    # if is_valid_url(url=args[1]):
+    if args[1]:
+        url = args[1]
+    else:
+        raise ValueError("Error: You need to provide a valid URL")
+    if is_valid_language_code(language_code=args[2]):
+        language_code = args[2]
+    else:
+        raise ValueError("Error: You need to provide a valid language_code")
+
     model_name = args[3]
+
     return url, language_code, model_name
 
-def main():
-    try:
-        url, language_code, model_name = parse_arguments(sys.argv)
-    except ValueError as e:
-        print(e)
-        sys.exit(1)
 
+def generate_commands(url, language_code, model_name, to_be_generated=[]):
 
     yt = YouTube(url, use_oauth=False, allow_oauth_cache=False)
     yt_title = yt.title
@@ -200,7 +229,6 @@ def main():
         ConvertVideoToAudioCommand(
             video_file_path=video_file_path,
             download_folder=download_folder,
-
         ),
         Transcriber(wav_path, download_folder, yt_length, model_name, language_code),
         BurnSubtitlesCommand(
@@ -209,7 +237,21 @@ def main():
             output_path=output_video_path,
         ),
     ]
+    return commands
 
+
+def main():
+    try:
+        url, language_code, model_name = parse_arguments(sys.argv)
+    except ValueError as e:
+        print(e)
+        sys.exit(1)
+
+    yt = YouTube(url, use_oauth=False, allow_oauth_cache=False)
+
+    commands = generate_commands(
+        url=url, language_code=language_code, model_name=model_name
+    )
     # executing commands
     for command in commands:
         command.execute(yt=yt)
