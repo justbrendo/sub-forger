@@ -152,17 +152,29 @@ def get_format_path(download_folder, media, file_format):
     return download_folder + "/" + media + "." + file_format
 
 
+def parse_arguments(args):
+    """
+    Parse and validate command-line arguments.
+    Args:
+        args (list): List of command-line arguments.
+
+    Returns:
+        tuple: A tuple containing the valid arguments (url, language_code, model_name).
+    """
+    if len(args) != 4 :
+        raise ValueError("Error: You need to provide a valid URL\nUsage: python main.py <URL> <LANGUAGE_CODE> <MODEL_NAME>")
+    url = args[1]
+    language_code = args[2]
+    model_name = args[3]
+    return url, language_code, model_name
 
 def main():
-    # Check if sys.argv[1] is provided
-    if len(sys.argv) < 4:
-        print("Error: You need to provide a valid URL")
-        print("Usage: python main.py <URL> <LANGUAGE_CODE> <MODEL_NAME>")
+    try:
+        url, language_code, model_name = parse_arguments(sys.argv)
+    except ValueError as e:
+        print(e)
         sys.exit(1)
-    # parsing and validating arguments
-    url = sys.argv[1]
-    language_code = sys.argv[2]
-    model_name = sys.argv[3]
+
 
     yt = YouTube(url, use_oauth=False, allow_oauth_cache=False)
     yt_title = yt.title

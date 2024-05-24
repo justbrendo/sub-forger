@@ -1,5 +1,5 @@
 import unittest
-from main import get_download_folder, get_format_path
+from main import get_download_folder, get_format_path, parse_arguments
 
 
 class TestDownloadFunctions(unittest.TestCase):
@@ -46,6 +46,27 @@ class TestDownloadFunctions(unittest.TestCase):
         with self.assertRaises(ValueError):
             get_format_path("downloads", "my_media", "")
 
+            
+class TestParseArguments(unittest.TestCase):
+
+    def test_parse_arguments_valid(self):
+        # Test when all arguments are provided
+        args = ["main.py", "https://www.youtube.com/watch?v=HKTyOUx9Wf4", "en", "large-v3"]
+        expected_result = ("https://www.youtube.com/watch?v=HKTyOUx9Wf4", "en", "large-v3")
+        self.assertEqual(parse_arguments(args), expected_result)
+
+    def test_parse_arguments_invalid_too_few_args(self):
+        # Test when too few arguments are provided
+        args = ["main.py"]
+        with self.assertRaises(ValueError):
+            parse_arguments(args)
+
+    def test_parse_arguments_invalid_too_many_args(self):
+        # Test when too many arguments are provided
+        args = ["main.py", "https://www.youtube.com/watch?v=HKTyOUx9Wf4", "en", "small", "extra_arg"]
+        with self.assertRaises(ValueError):
+            parse_arguments(args)
+            
             
 if __name__ == '__main__':
     unittest.main()
