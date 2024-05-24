@@ -61,7 +61,10 @@ def test_get_format_path(download_folder, media, file_format, expected_path):
         ("invalid_url", False),
         ("https://www.m.youtube.com/watch?v=video_id/app=mobile", False),
         ("http://www.youtube.com/watch?v=0zM3nApSvMg#t=0m10s", True),
-     
+        ("https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley", True), # Rickroll test
+        ("https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=22s", True), # Rickroll test with timestamp
+        ("https://youtube.com/watch?v=dQw4w9WgXcQ&t=22", True), # Rickroll test with timestamp
+        ("https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=PL63F0C78739B0A16F", True)     
     ],
 )
 def test_is_valid_url(url, expected_result):
@@ -76,6 +79,7 @@ def test_is_valid_url(url, expected_result):
         ("la", False),
         ("LA", False),
         ("", False),
+        ("en-US", False) 
     ],
 )
 def test_is_valid_language_code(language_code, expected_result):
