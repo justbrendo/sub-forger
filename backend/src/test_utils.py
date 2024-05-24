@@ -25,7 +25,15 @@ def test_format_timestamp(seconds, always_include_hours, expected_result):
     trans= Transcriber(None,None,None,None,None)
     assert trans.format_timestamp(seconds, always_include_hours) == expected_result
     
+def test_format_timestamp_negative_seconds():
+    trans = Transcriber(None, None, None, None, None)
+    with pytest.raises(AssertionError):
+        trans.format_timestamp(-1, False)
 
+def test_format_timestamp_large_seconds():
+    trans = Transcriber(None, None, None, None, None)
+    assert trans.format_timestamp(9999999999.999, True) == "2777777:46:39,999"
+    
 Segment = namedtuple("Segment", ["start", "end", "text"])
 @pytest.fixture
 def mock_transcript():
@@ -44,3 +52,4 @@ def test_write_srt_with_mocked_print_and_progress_bar(mock_transcript, capsys):
     pbar = MockProgressBar()  
     transcriber.write_srt(mock_transcript, file=None, pbar=pbar)
     assert pbar.value == 10  
+
