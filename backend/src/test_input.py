@@ -35,6 +35,12 @@ def test_get_download_folder(title, max_title_size, expected_folder):
             "pdf",
             "/home/user/downloads/document.pdf",
         ),
+        (
+            "/home/downloads",
+            "audio",
+            "mp3",
+            "/home/downloads/audio.mp3",
+        ),
     ],
 )
 def test_get_format_path(download_folder, media, file_format, expected_path):
@@ -51,7 +57,11 @@ def test_get_format_path(download_folder, media, file_format, expected_path):
         ("https://example.com", False),
         ("https://www.m.youtube.com/watch?v=video_id", False),
         ("youtube.com/watch?v=video_id", True),
+        ("/watch?v=video_id", False),
         ("invalid_url", False),
+        ("https://www.m.youtube.com/watch?v=video_id/app=mobile", False),
+        ("http://www.youtube.com/watch?v=0zM3nApSvMg#t=0m10s", True),
+     
     ],
 )
 def test_is_valid_url(url, expected_result):
