@@ -1,0 +1,8 @@
+pytube
+ffmpeg-python
+python-dotenv
+requests-toolbelt
+pytest
+tqdm
+faster-whisper
+transformers[torch]>=4.23

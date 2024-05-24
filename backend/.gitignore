@@ -1,3 +1,6 @@
 src/__pycache__
 src/downloads
 venv
+.idea
+.coverage
+__pycache__
