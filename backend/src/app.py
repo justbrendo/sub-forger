@@ -37,6 +37,7 @@ app.add_middleware(
 )
 #find a way to make this work in any pc later
 #for now it needs to be changed manually
+#change it to your_base_directory/sub-forger/backend/src/downloads
 VIDEO_DIRECTORY = "/home/samuel/sub-forger/backend/src/downloads"
 
 @app.get("/downloads/{video_name}")
