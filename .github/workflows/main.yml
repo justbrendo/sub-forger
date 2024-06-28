@@ -18,8 +18,11 @@ jobs:
     - name: Install dependencies
       run: pip install -r test_requirements.txt
 
-    - name: Run tests
+    - name: Run tests with coverage
       run: |
-        pytest backend/src/test_input.py
-        pytest backend/src/test_utils.py
-        pytest backend/src/test_integration.py
+        coverage run -m pytest backend/src/test_input.py
+        coverage run -m pytest backend/src/test_utils.py
+        coverage run -m pytest backend/src/test_integration.py
+
+    - name: Generate coverage report
+      run: coverage report -m

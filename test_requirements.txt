@@ -6,3 +6,4 @@ pytest
 tqdm
 faster-whisper
 transformers[torch]>=4.23
+coverage
