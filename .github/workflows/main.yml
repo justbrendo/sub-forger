@@ -20,9 +20,7 @@ jobs:
 
     - name: Run tests with coverage
       run: |
-        coverage run -m pytest backend/src/test_input.py
-        coverage run -m pytest backend/src/test_utils.py
-        coverage run -m pytest backend/src/test_integration.py
+        coverage run -m pytest
 
     - name: Generate coverage report
       run: coverage report -m
