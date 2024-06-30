@@ -8,6 +8,7 @@ function App() {
       <div className='main-container'>
         <Header></Header>
         <OptionBox></OptionBox>
+       
       </div>
       
     </div>

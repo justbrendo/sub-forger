@@ -4,3 +4,5 @@ python-dotenv
 faster-whisper
 transformers[torch]>=4.23
 requests-toolbelt
+uvicorn
+fastapi
