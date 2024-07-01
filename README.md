@@ -37,6 +37,9 @@ Finally, the generated subtitles are burned onto the video, using again [ffmpeg]
 ### Pytube
 [Pytube](https://pytube.io/en/latest/) is a lightweight, Pythonic library for downloading YouTube videos. It simplifies the process of obtaining video files for subtitle processing.
 
+### Coverage.py
+Coverage.py is a measurement tool for code coverage of Python programs. It instruments the code to track which lines are executed during tests, providing valuable insights into the quality and comprehensiveness of a test suite.
+
 ## Contributing
 We welcome contributions from the community!
 
